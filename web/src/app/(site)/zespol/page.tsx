@@ -10,8 +10,14 @@ export const metadata: Metadata = {
     'Beata Woroszkiewicz — pośrednik w obrocie nieruchomościami. Piotr Czajczyński — rzeczoznawca majątkowy.',
 }
 
-export default function TeamPage() {
-  const agents = getAgents()
+export default async function TeamPage() {
+  const agents = await getAgents()
+  // liczbe ofert pobieramy z gory - w synchronicznym .map nie ma jak czekac
+  const counts = new Map(
+    await Promise.all(
+      agents.map(async (a) => [a.id, (await getOffersByAgent(a.id)).length] as const),
+    ),
+  )
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12 lg:px-8 lg:py-16">
@@ -24,7 +30,7 @@ export default function TeamPage() {
 
       <div className="mt-14 grid gap-12 border-t border-[#1E1B18]/12 pt-12 sm:grid-cols-2 lg:gap-20">
         {agents.map((agent) => {
-          const count = getOffersByAgent(agent.id).length
+          const count = counts.get(agent.id) ?? 0
           return (
             <div key={agent.id}>
               <h2 className="text-heading font-serif text-3xl">

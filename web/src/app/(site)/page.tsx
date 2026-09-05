@@ -6,9 +6,9 @@ import { getAgents, getPublicOffers } from '@/lib/offers'
 import { formatPrice, offersCount } from '@/lib/format'
 import { PROPERTY_TYPES, type PropertyType } from '@/lib/types'
 
-export default function HomePage() {
-  const offers = getPublicOffers()
-  const agents = getAgents()
+export default async function HomePage() {
+  const offers = await getPublicOffers()
+  const agents = await getAgents()
   const exclusive = offers.filter((o) => o.isExclusive).length
   const newest = offers.slice(0, 6)
   const strip = offers.filter((o) => o.photos.length > 2).slice(0, 3)

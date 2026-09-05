@@ -7,13 +7,13 @@ import { OfferCard } from '@/components/site/offer-card'
 import { getAgents, getOffersByAgent } from '@/lib/offers'
 import { offersCount } from '@/lib/format'
 
-export function generateStaticParams() {
-  return getAgents().map((a) => ({ slug: a.slug }))
+export async function generateStaticParams() {
+  return (await getAgents()).map((a) => ({ slug: a.slug }))
 }
 
 export async function generateMetadata(props: PageProps<'/zespol/[slug]'>): Promise<Metadata> {
   const { slug } = await props.params
-  const agent = getAgents().find((a) => a.slug === slug)
+  const agent = (await getAgents()).find((a) => a.slug === slug)
   if (!agent) return {}
   return {
     title: `${agent.fullName} — Czajczyński Nieruchomości`,
@@ -23,10 +23,10 @@ export async function generateMetadata(props: PageProps<'/zespol/[slug]'>): Prom
 
 export default async function AgentPage(props: PageProps<'/zespol/[slug]'>) {
   const { slug } = await props.params
-  const agent = getAgents().find((a) => a.slug === slug)
+  const agent = (await getAgents()).find((a) => a.slug === slug)
   if (!agent) notFound()
 
-  const offers = getOffersByAgent(agent.id)
+  const offers = await getOffersByAgent(agent.id)
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12 lg:px-8 lg:py-16">

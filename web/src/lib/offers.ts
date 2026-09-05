@@ -1,42 +1,55 @@
-/**
- * Warstwa dostepu do ofert.
- *
- * Na czas prototypu czyta z plikow JSON zassanych ze starej strony.
- * Gdy wejdzie Supabase, podmieniamy tylko cialo tych funkcji - reszta
- * aplikacji korzysta z tego samego interfejsu.
- */
-import offersJson from '@/data/offers.json'
-import agentsJson from '@/data/agents.json'
+import 'server-only'
+import { hasSupabase } from '@/lib/supabase/config'
+import { jsonRepo } from '@/lib/data/json-repo'
+import { supabaseRepo } from '@/lib/data/supabase-repo'
 import { OFFER_STATUSES, type Agent, type Offer, type PropertyType } from './types'
 
-const OFFERS = offersJson as unknown as Offer[]
-const AGENTS = agentsJson as unknown as Agent[]
-
-export function getPublicOffers(): Offer[] {
-  return OFFERS.filter((o) => OFFER_STATUSES[o.status].public)
+/**
+ * Jedyne wejscie do danych dla strony publicznej.
+ *
+ * Zrodlo wybiera sie samo: jest baza - czytamy z bazy, nie ma - z pliku JSON
+ * zassanego ze starej strony. Reszta aplikacji nie wie, ktore z nich dziala.
+ */
+function repo() {
+  return hasSupabase() ? supabaseRepo : jsonRepo
 }
 
-export function getOfferBySlug(slug: string): Offer | undefined {
-  return OFFERS.find((o) => o.slug === slug)
+/** Wszystkie oferty, lacznie ze szkicami. Tylko dla panelu. */
+export async function getAllOffers(): Promise<Offer[]> {
+  return repo().offers()
 }
 
-export function getOffersByType(type: PropertyType): Offer[] {
-  return getPublicOffers().filter((o) => o.propertyType === type)
+export async function getPublicOffers(): Promise<Offer[]> {
+  const offers = await repo().offers()
+  return offers.filter((o) => OFFER_STATUSES[o.status].public)
 }
 
-export function getAgents(): Agent[] {
-  return AGENTS
+export async function getOfferBySlug(slug: string): Promise<Offer | undefined> {
+  const offers = await repo().offers()
+  return offers.find((o) => o.slug === slug)
 }
 
-export function getAgent(id: string | null): Agent | undefined {
-  return id ? AGENTS.find((a) => a.id === id) : undefined
+export async function getOffersByType(type: PropertyType): Promise<Offer[]> {
+  const offers = await getPublicOffers()
+  return offers.filter((o) => o.propertyType === type)
 }
 
-export function getOffersByAgent(agentId: string): Offer[] {
-  return getPublicOffers().filter((o) => o.agentId === agentId)
+export async function getAgents(): Promise<Agent[]> {
+  return repo().agents()
 }
 
-/** Zdjecie glowne - pierwsze w kolejnosci. */
+export async function getAgent(id: string | null): Promise<Agent | undefined> {
+  if (!id) return undefined
+  const agents = await repo().agents()
+  return agents.find((a) => a.id === id)
+}
+
+export async function getOffersByAgent(agentId: string): Promise<Offer[]> {
+  const offers = await getPublicOffers()
+  return offers.filter((o) => o.agentId === agentId)
+}
+
+/** Zdjecie glowne - pierwsze w kolejnosci ustalonej w panelu. */
 export function coverPhoto(offer: Offer): string | null {
   return offer.photos[0]?.url ?? null
 }

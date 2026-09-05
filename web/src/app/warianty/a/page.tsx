@@ -14,9 +14,9 @@ const TYPE_ICONS: Record<PropertyType, typeof Home> = {
   commercial: Store,
 }
 
-export default function VariantA() {
-  const offers = getPublicOffers()
-  const agents = getAgents()
+export default async function VariantA() {
+  const offers = await getPublicOffers()
+  const agents = await getAgents()
 
   // Wyroznienie: najdrozsza oferta sprzedazy z kompletem zdjec
   const featured = [...offers]

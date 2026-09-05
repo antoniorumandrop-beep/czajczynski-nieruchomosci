@@ -3,7 +3,7 @@ import { getAgents, getPublicOffers } from '@/lib/offers'
 import { siteUrl } from '@/lib/site'
 import { PROPERTY_TYPES } from '@/lib/types'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl()
   const now = new Date()
 
@@ -21,14 +21,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  const offers = getPublicOffers().map((o) => ({
+  const offers = (await getPublicOffers()).map((o) => ({
     url: `${base}/oferta/${o.slug}`,
     lastModified: new Date(o.updatedAt),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }))
 
-  const agents = getAgents().map((a) => ({
+  const agents = (await getAgents()).map((a) => ({
     url: `${base}/zespol/${a.slug}`,
     lastModified: now,
     changeFrequency: 'monthly' as const,

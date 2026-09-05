@@ -28,8 +28,8 @@ const VARIANTS = [
   },
 ]
 
-export default function VariantsIndex() {
-  const offers = getPublicOffers()
+export default async function VariantsIndex() {
+  const offers = await getPublicOffers()
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-16 font-sans text-neutral-900">

@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     'Dwuosobowe biuro nieruchomości we Wrocławiu. Pośrednictwo w sprzedaży i wynajmie oraz wycena nieruchomości z uprawnieniami.',
 }
 
-export default function AboutPage() {
-  const offers = getPublicOffers()
+export default async function AboutPage() {
+  const offers = await getPublicOffers()
   const exclusive = offers.filter((o) => o.isExclusive).length
-  const agents = getAgents()
+  const agents = await getAgents()
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12 lg:px-8 lg:py-16">

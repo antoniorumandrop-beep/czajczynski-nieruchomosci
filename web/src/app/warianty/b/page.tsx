@@ -13,9 +13,9 @@ const NAV = [
   { href: '#kontakt', label: 'Kontakt' },
 ]
 
-export default function VariantB() {
-  const offers = getPublicOffers()
-  const agents = getAgents()
+export default async function VariantB() {
+  const offers = await getPublicOffers()
+  const agents = await getAgents()
   const exclusive = offers.filter((o) => o.isExclusive).length
   const shown = offers.slice(0, 8)
 

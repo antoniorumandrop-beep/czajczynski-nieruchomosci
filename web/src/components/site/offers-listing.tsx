@@ -5,7 +5,7 @@ import { applyFilters, locationOptions, parseFilters, type RawParams } from '@/l
 import { getPublicOffers } from '@/lib/offers'
 import type { PropertyType } from '@/lib/types'
 
-export function OffersListing({
+export async function OffersListing({
   params,
   lockedType,
   title,
@@ -16,7 +16,7 @@ export function OffersListing({
   title: string
   lead?: string
 }) {
-  const all = getPublicOffers()
+  const all = await getPublicOffers()
   const filters = parseFilters(params)
   if (lockedType) filters.typ = lockedType
 

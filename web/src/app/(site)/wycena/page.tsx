@@ -28,8 +28,9 @@ const CASES = [
   },
 ]
 
-export default function ValuationPage() {
-  const appraiser = getAgents().find((a) => a.licence) ?? getAgents()[1]
+export default async function ValuationPage() {
+  const agents = await getAgents()
+  const appraiser = agents.find((a) => a.licence) ?? agents[1]
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12 lg:px-8 lg:py-16">

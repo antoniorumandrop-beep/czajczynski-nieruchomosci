@@ -18,13 +18,13 @@ import {
   type Offer,
 } from '@/lib/types'
 
-export function generateStaticParams() {
-  return getPublicOffers().map((o) => ({ slug: o.slug }))
+export async function generateStaticParams() {
+  return (await getPublicOffers()).map((o) => ({ slug: o.slug }))
 }
 
 export async function generateMetadata(props: PageProps<'/oferta/[slug]'>): Promise<Metadata> {
   const { slug } = await props.params
-  const offer = getOfferBySlug(slug)
+  const offer = await getOfferBySlug(slug)
   if (!offer) return {}
 
   const where = [offer.city, offer.district].filter(Boolean).join(', ')
@@ -60,10 +60,10 @@ export async function generateMetadata(props: PageProps<'/oferta/[slug]'>): Prom
 
 export default async function OfferPage(props: PageProps<'/oferta/[slug]'>) {
   const { slug } = await props.params
-  const offer = getOfferBySlug(slug)
+  const offer = await getOfferBySlug(slug)
   if (!offer || !OFFER_STATUSES[offer.status].public) notFound()
 
-  const agent = getAgent(offer.agentId)
+  const agent = await getAgent(offer.agentId)
   const url = `${siteUrl()}/oferta/${offer.slug}`
   const ppm = formatPricePerM2(pricePerM2(offer))
   const where = [offer.city, offer.district].filter(Boolean).join(', ')
@@ -77,7 +77,7 @@ export default async function OfferPage(props: PageProps<'/oferta/[slug]'>) {
     { label: 'Rodzaj', value: PROPERTY_TYPES[offer.propertyType].one },
   ].filter((f) => f.value)
 
-  const similar = getPublicOffers()
+  const similar = (await getPublicOffers())
     .filter(
       (o) =>
         o.id !== offer.id &&
