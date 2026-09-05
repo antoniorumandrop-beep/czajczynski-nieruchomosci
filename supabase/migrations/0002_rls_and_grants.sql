@@ -11,7 +11,15 @@
 
 -- Projekt zalozono z odznaczonym "Automatically expose new tables",
 -- wiec przywileje na tabelach nadajemy tutaj, jawnie.
-grant usage on schema public to anon, authenticated;
+--
+-- service_role omija RLS, ale przywilejow tabelarycznych nie omija - bez
+-- tych grantow skrypt importu i operacje serwerowe dostaja 42501.
+grant usage on schema public to anon, authenticated, service_role;
+
+grant all privileges on public.agents       to service_role;
+grant all privileges on public.offers       to service_role;
+grant all privileges on public.offer_photos to service_role;
+grant all privileges on public.inquiries    to service_role;
 
 alter table public.agents       enable row level security;
 alter table public.offers       enable row level security;

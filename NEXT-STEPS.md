@@ -2,7 +2,13 @@
 
 Projekt Supabase: `svlwzannmfzdodpwfifa` (Frankfurt).
 Klucze siedzą w `web/.env.local` — sprawdzone, działają.
-Baza jest jeszcze pusta: brak tabel, brak bucketa, zero kont.
+
+**Zrobione przez Antonia:** migracje 0001–0003 uruchomione, rejestracja
+wyłączona, konto testowe `antonioruman99@gmail.com` założone. GitHub i Vercel
+ma na koncie od projektu xoxo — nowy projekt dokłada tam.
+
+**Dołożone potem:** granty dla `service_role` (plik 0002 ich nie miał, przez
+co import dostawał 42501). Plik jest poprawiony w repo.
 
 ---
 
@@ -21,7 +27,7 @@ Baza jest jeszcze pusta: brak tabel, brak bucketa, zero kont.
 
 ---
 
-## Krok 1 — uruchom migracje (5 minut, Ty)
+## Krok 1 — migracje — ZROBIONE
 
 Supabase → **SQL Editor** → **New query**. Wklej i uruchom **po kolei**:
 
@@ -41,14 +47,14 @@ claude mcp add --scope project --transport http supabase https://mcp.supabase.co
 potem `/mcp` → `supabase` → Authenticate. W Feature groups **zaznacz `storage`** —
 domyślnie jest wyłączony, a bez niego nie da się sprawdzić wgrywania zdjęć.
 
-## Krok 2 — wyłącz rejestrację (1 minuta, Ty)
+## Krok 2 — wyłączenie rejestracji — ZROBIONE
 
 **Authentication → Sign In / Providers → Email** → wyłącz „Allow new users to sign up".
 
 Bez tego każdy, kto trafi na `/panel/logowanie`, może założyć sobie konto
 i zobaczyć szkice ofert oraz zapytania z formularza.
 
-## Krok 3 — załóż dwa konta (2 minuty, Ty)
+## Krok 3 — konta — ZROBIONE (jedno, testowe)
 
 **Authentication → Users → Add user → Create new user**, zaznacz „Auto Confirm User".
 
