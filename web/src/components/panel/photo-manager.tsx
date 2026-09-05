@@ -97,8 +97,12 @@ export function PhotoManager({
         )
       }
     }
-    // odswiezenie listy po wgraniu - dane przychodza z serwera
-    startTransition(() => window.location.reload())
+    // Odswiezamy liste tylko wtedy, gdy wszystko przeszlo. Przy bledzie
+    // zostajemy na stronie, zeby komunikat nie zniknal razem z przeladowaniem.
+    setUploads((current) => {
+      if (current.length === 0) startTransition(() => window.location.reload())
+      return current
+    })
   }
 
   function onDragEnd(event: DragEndEvent) {

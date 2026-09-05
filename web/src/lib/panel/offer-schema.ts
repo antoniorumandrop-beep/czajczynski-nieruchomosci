@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { slugify } from '@/lib/format'
+import { slugify } from '../format.ts'
 import {
   PROPERTY_TYPES,
   TRANSACTION_TYPES,
   type PropertyType,
   type TransactionType,
-} from '@/lib/types'
+} from '../types.ts'
 
 /** "1 234,56" albo "1234.56" -> 1234.56; puste -> null */
 const decimal = z

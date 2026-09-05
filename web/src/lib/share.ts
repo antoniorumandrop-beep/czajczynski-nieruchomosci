@@ -1,5 +1,5 @@
-import { formatArea, formatPrice, formatPricePerM2, rooms as roomsLabel } from './format'
-import { PROPERTY_TYPES, TRANSACTION_TYPES, pricePerM2, type Offer } from './types'
+import { formatArea, formatPrice, formatPricePerM2, rooms as roomsLabel } from './format.ts'
+import { PROPERTY_TYPES, TRANSACTION_TYPES, pricePerM2, type Offer } from './types.ts'
 
 /**
  * Tekst posta na Facebooka.

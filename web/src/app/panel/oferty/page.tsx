@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react'
 import { hasSupabase } from '@/lib/supabase/config'
 import { NotConfigured } from '@/components/panel/not-configured'
 import { panelOffers } from '@/lib/panel/data'
-import { StatusBadge } from '@/app/panel/page'
+import { StatusBadge } from '@/components/panel/status-badge'
 import { formatArea, formatPrice, offersCount, photosCount } from '@/lib/format'
 import { PROPERTY_TYPES, TRANSACTION_TYPES } from '@/lib/types'
 

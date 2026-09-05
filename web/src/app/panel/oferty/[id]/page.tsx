@@ -7,7 +7,7 @@ import { OfferForm } from '@/components/panel/offer-form'
 import { PhotoManager } from '@/components/panel/photo-manager'
 import { DeleteOfferButton } from '@/components/panel/delete-offer-button'
 import { panelAgents, panelOffer } from '@/lib/panel/data'
-import { StatusBadge } from '@/app/panel/page'
+import { StatusBadge } from '@/components/panel/status-badge'
 
 export default async function EditOfferPage(props: PageProps<'/panel/oferty/[id]'>) {
   if (!hasSupabase()) {

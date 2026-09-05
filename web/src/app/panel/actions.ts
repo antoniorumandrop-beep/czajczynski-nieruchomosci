@@ -62,7 +62,7 @@ export async function saveOffer(_prev: SaveState, formData: FormData): Promise<S
   if (v.id) {
     const { data: existing, error: readError } = await supabase
       .from('offers')
-      .select('offer_number, slug')
+      .select('offer_number, slug, published_at')
       .eq('id', v.id)
       .single()
 
@@ -70,13 +70,12 @@ export async function saveOffer(_prev: SaveState, formData: FormData): Promise<S
       return { status: 'error', message: 'Nie znaleziono tej oferty.' }
     }
 
-    const slug = buildSlug(
-      v.propertyType,
-      v.transactionType,
-      v.city,
-      v.district,
-      existing.offer_number,
-    )
+    // Adres oferty zamraza sie w chwili pierwszej publikacji. Wlasciciele
+    // rozsylaja linki na Facebooku i mailem - poprawka literowki w nazwie
+    // dzielnicy nie moze ich zabijac. Szkic mozna jeszcze przeslugowac.
+    const slug = existing.published_at
+      ? (existing.slug as string)
+      : buildSlug(v.propertyType, v.transactionType, v.city, v.district, existing.offer_number)
     const title = buildTitle(v.propertyType, v.transactionType, v.city, v.district)
 
     const { error } = await supabase

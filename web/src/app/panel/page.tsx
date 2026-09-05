@@ -3,8 +3,8 @@ import { ArrowRight, FileText, Inbox, Plus } from 'lucide-react'
 import { hasSupabase } from '@/lib/supabase/config'
 import { NotConfigured } from '@/components/panel/not-configured'
 import { panelInquiries, panelOffers } from '@/lib/panel/data'
-import { OFFER_STATUSES } from '@/lib/types'
 import { offersCount } from '@/lib/format'
+import { StatusBadge } from '@/components/panel/status-badge'
 
 export default async function PanelHome() {
   if (!hasSupabase()) {
@@ -112,17 +112,3 @@ export default async function PanelHome() {
   )
 }
 
-export function StatusBadge({ status }: { status: keyof typeof OFFER_STATUSES }) {
-  const tone =
-    status === 'published'
-      ? 'bg-[#EFF4EC] text-[#2C5731]'
-      : status === 'draft'
-        ? 'bg-[#F1EBE2] text-[#8A6A3B]'
-        : 'bg-[#1E1B18]/8 text-[#4A443D]'
-
-  return (
-    <span className={`text-micro shrink-0 px-2.5 py-1 text-[10px] font-semibold uppercase ${tone}`}>
-      {OFFER_STATUSES[status].label}
-    </span>
-  )
-}

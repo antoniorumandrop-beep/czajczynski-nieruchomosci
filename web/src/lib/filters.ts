@@ -7,8 +7,8 @@
  * Dzieki temu dziala przycisk "wstecz", da sie wyslac klientowi link do
  * odfiltrowanej listy, a Google indeksuje kazde ustawienie osobno.
  */
-import { PROPERTY_TYPES, pricePerM2, type Offer, type PropertyType } from './types'
-import { slugify } from './format'
+import { PROPERTY_TYPES, pricePerM2, type Offer, type PropertyType } from './types.ts'
+import { slugify } from './format.ts'
 
 export const SORTS = {
   najnowsze: { label: 'Od najnowszych' },
