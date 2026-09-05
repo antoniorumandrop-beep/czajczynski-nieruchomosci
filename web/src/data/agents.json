@@ -1,0 +1,24 @@
+[
+  {
+    "id": "beata-woroszkiewicz",
+    "slug": "beata-woroszkiewicz",
+    "fullName": "Beata Woroszkiewicz",
+    "role": "Pośrednik w obrocie nieruchomościami",
+    "licence": null,
+    "phone": "71 794 49 83",
+    "email": "oferty@superlokum.pl",
+    "photoUrl": null,
+    "bio": null
+  },
+  {
+    "id": "piotr-czajczynski",
+    "slug": "piotr-czajczynski",
+    "fullName": "Piotr Czajczyński",
+    "role": "Rzeczoznawca majątkowy",
+    "licence": "Licencja zawodowa nr 10273",
+    "phone": "71 794 49 83",
+    "email": "oferty@superlokum.pl",
+    "photoUrl": null,
+    "bio": null
+  }
+]

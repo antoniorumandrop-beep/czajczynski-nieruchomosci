@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-display: var(--font-bricolage), var(--font-inter), sans-serif;
+}
+
+/*
+ * Tracking zalezny od stopnia pisma: duzy tekst czyta sie jako zbyt rozstrzelony,
+ * maly jako zbity. Jedna wartosc letter-spacing dla wszystkiego jest zawsze
+ * zla w ktoryms miejscu.
+ */
+@layer base {
+  .text-display {
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+  .text-heading {
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .text-body {
+    letter-spacing: 0;
+    line-height: 1.6;
+  }
+  .text-micro {
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+
+  /* Cyfry w tabelach parametrow musza sie pionowo pokrywac */
+  .nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

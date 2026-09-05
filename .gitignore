@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.env*.local
+.DS_Store
+shots/
+# surowy zrzut ze starej strony - zrodlo posrednie, w repo trzymamy
+# tylko znormalizowane dane i zdjecia w web/public
+data/scraped/
