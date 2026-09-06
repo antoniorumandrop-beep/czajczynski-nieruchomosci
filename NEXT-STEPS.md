@@ -63,18 +63,22 @@ wpiszemy, gdy powiedzą „tak". Adres e-mail konta musi się zgadzać z tym
 w `web/src/data/agents.json`, żeby import połączył konto z profilem agenta.
 Teraz jest tam `oferty@superlokum.pl` przy obu — do zmiany.
 
-## Krok 4 — import 22 ofert (robi następna sesja)
+## Krok 4 — import 22 ofert — ZROBIONE
 
-```
-cd web && npm run seed
-```
+22 oferty i 218 zdjęć są w bazie i w Storage. Powtórzenie `npm run seed`
+zaktualizuje istniejące rekordy zamiast dublować.
 
-Wgrywa agentów, oferty i 218 zdjęć do Storage. Idempotentne.
+## Krok 5 — test panelu
 
-## Krok 5 — test panelu na żywo (robi następna sesja)
+**Sprawdzone automatycznie na żywej bazie (13 z 13):** dodanie szkicu,
+liczenie ceny za m² przez bazę, ukrycie szkicu przed gościem, stemplowanie
+daty publikacji, wgranie zdjęcia z opisem do Storage i jego publiczny odczyt,
+odrzucenie działki z pokojami i zduplikowanego numeru oferty, wysłanie
+zapytania przez gościa przy jednoczesnym braku dostępu do cudzych zapytań,
+kaskadowe kasowanie zdjęć razem z ofertą. Panel jest też odgrodzony —
+każdy adres pod `/panel` przekierowuje niezalogowanego na logowanie.
 
-Tego jeszcze nikt nie sprawdził — panel jest napisany, ale nigdy nie gadał
-z prawdziwą bazą. Do przejścia:
+**Zostaje przejście przez interfejs** (musi zrobić człowiek — hasła nie użyję):
 
 - logowanie i wylogowanie
 - dodanie oferty od zera, nadanie numeru, zapis
