@@ -215,14 +215,15 @@ export async function reorderPhotos(
 ): Promise<{ error?: string }> {
   const supabase = await createClient()
 
-  for (const [index, id] of orderedIds.entries()) {
-    const { error } = await supabase
-      .from('offer_photos')
-      .update({ sort_order: index })
-      .eq('id', id)
-      .eq('offer_id', offerId)
-    if (error) return { error: error.message }
-  }
+  // Rownolegle, nie po kolei: przy ofercie z 17 zdjeciami sekwencyjne
+  // zapytania robily z przeciagniecia myszka sekundowa zwieche.
+  const results = await Promise.all(
+    orderedIds.map((id, index) =>
+      supabase.from('offer_photos').update({ sort_order: index }).eq('id', id).eq('offer_id', offerId),
+    ),
+  )
+  const failed = results.find((r) => r.error)
+  if (failed?.error) return { error: failed.error.message }
 
   revalidatePath(`/panel/oferty/${offerId}`)
   revalidateOffer()

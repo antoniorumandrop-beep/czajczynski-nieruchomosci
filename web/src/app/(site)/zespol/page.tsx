@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Mail, Phone } from 'lucide-react'
 import { getAgents, getOffersByAgent } from '@/lib/offers'
 import { offersCount } from '@/lib/format'
+import { AgentAvatar } from '@/components/site/avatar'
 
 export const metadata: Metadata = {
   title: 'Zespół — Czajczyński Nieruchomości',
@@ -33,8 +34,9 @@ export default async function TeamPage() {
           const count = counts.get(agent.id) ?? 0
           return (
             <div key={agent.id}>
+              <AgentAvatar agent={agent} size={104} className="mb-6" />
               <h2 className="text-heading font-serif text-3xl">
-                <Link href={`/zespol/${agent.slug}`} className="transition-colors hover:text-[#8A6A3B]">
+                <Link href={`/zespol/${agent.slug}`} className="inline-block py-1 transition-colors hover:text-[#8A6A3B]">
                   {agent.fullName}
                 </Link>
               </h2>
@@ -65,7 +67,7 @@ export default async function TeamPage() {
 
               <Link
                 href={`/zespol/${agent.slug}`}
-                className="text-body mt-5 inline-block border-b border-[#8A6A3B]/40 pb-0.5 text-[15px] font-medium text-[#8A6A3B]"
+                className="text-body mt-4 inline-block border-b border-[#8A6A3B]/40 py-1.5 text-[15px] font-medium text-[#8A6A3B]"
               >
                 Zobacz profil
               </Link>

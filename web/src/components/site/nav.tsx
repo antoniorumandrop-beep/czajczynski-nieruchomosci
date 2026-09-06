@@ -17,10 +17,15 @@ const LINKS = [
 export function SiteNav() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [lastPath, setLastPath] = useState(pathname)
 
-  // menu mobilne zamyka sie po przejsciu - bez tego zostaje otwarte
-  // na nowej stronie i wyglada jak zawieszone
-  useEffect(() => setOpen(false), [pathname])
+  // Menu mobilne ma sie zamknac po przejsciu na inna strone - inaczej zostaje
+  // otwarte i wyglada jak zawieszone. Robimy to porownaniem w trakcie renderu,
+  // a nie efektem: efekt odpalilby dodatkowy render juz po pokazaniu ekranu.
+  if (lastPath !== pathname) {
+    setLastPath(pathname)
+    setOpen(false)
+  }
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -32,7 +37,7 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#1E1B18]/12 bg-[#F6F2EC]/92 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4 lg:px-8">
-        <Link href="/" className="font-serif text-[19px] leading-none text-[#1E1B18]">
+        <Link href="/" className="-ml-1 py-2 pr-1 pl-1 font-serif text-[19px] leading-none text-[#1E1B18]">
           Czajczyński<span className="text-[#8A6A3B]"> Nieruchomości</span>
         </Link>
 
@@ -58,7 +63,7 @@ export function SiteNav() {
         <div className="flex items-center gap-2">
           <a
             href={`tel:${CONTACT.phoneRaw}`}
-            className="nums text-body hidden text-[15px] font-medium transition-colors hover:text-[#8A6A3B] sm:block"
+            className="nums text-body hidden px-2 py-2.5 text-[15px] font-medium transition-colors hover:text-[#8A6A3B] sm:block"
           >
             {CONTACT.phone}
           </a>

@@ -78,6 +78,21 @@ zapytania przez gościa przy jednoczesnym braku dostępu do cudzych zapytań,
 kaskadowe kasowanie zdjęć razem z ofertą. Panel jest też odgrodzony —
 każdy adres pod `/panel` przekierowuje niezalogowanego na logowanie.
 
+**Przegląd kodu przed publikacją — poprawione:**
+
+- zdjęcie wgrane do Storage, przy którym padł zapis do bazy, zostawało tam
+  na zawsze i zjadało limit; teraz panel sprząta po sobie
+- wyzwalacz w bazie (`0004`) kasuje plik razem z wierszem, niezależnie od
+  tego, którędy ktoś usuwa ofertę
+- portrety agentów były w modelu, ale nigdzie się nie wyświetlały — strona
+  zespołu nie miała ani jednej twarzy; dodane w czterech miejscach,
+  z inicjałami jako stanem przejściowym
+- zmiana kolejności zdjęć szła 17 zapytaniami pod rząd, teraz równolegle
+- przycisk „Podgląd" przy szkicu prowadził na 404; szkic widzi teraz
+  zalogowany personel, z paskiem ostrzegawczym u góry
+- cele dotykowe poniżej 32 px w stopce, nawigacji i na stronie kontaktu
+- cztery błędy lintera, w tym dwa wzorce wywołujące kaskadę renderów
+
 **Zostaje przejście przez interfejs** (musi zrobić człowiek — hasła nie użyję):
 
 - logowanie i wylogowanie

@@ -6,9 +6,11 @@ import { Gallery } from '@/components/site/gallery'
 import { InquiryForm } from '@/components/site/inquiry-form'
 import { OfferCard } from '@/components/site/offer-card'
 import { ShareButtons } from '@/components/site/share-button'
+import { AgentAvatar } from '@/components/site/avatar'
 import { getAgent, getOfferBySlug, getPublicOffers } from '@/lib/offers'
 import { formatArea, formatPrice, formatPricePerM2, floorLabel, rooms as roomsLabel } from '@/lib/format'
 import { siteUrl } from '@/lib/site'
+import { draftPreview } from '@/lib/preview'
 import {
   MARKETS,
   OFFER_STATUSES,
@@ -25,7 +27,8 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: PageProps<'/oferta/[slug]'>): Promise<Metadata> {
   const { slug } = await props.params
   const offer = await getOfferBySlug(slug)
-  if (!offer) return {}
+  // szkic nie ma metadanych - i tak nie jest publiczny
+  if (!offer) return { robots: { index: false, follow: false } }
 
   const where = [offer.city, offer.district].filter(Boolean).join(', ')
   const title = `${offer.title} — ${formatPrice(offer.price)}`
@@ -60,8 +63,19 @@ export async function generateMetadata(props: PageProps<'/oferta/[slug]'>): Prom
 
 export default async function OfferPage(props: PageProps<'/oferta/[slug]'>) {
   const { slug } = await props.params
-  const offer = await getOfferBySlug(slug)
-  if (!offer || !OFFER_STATUSES[offer.status].public) notFound()
+
+  // Najpierw normalna sciezka: to, co widzi kazdy gosc.
+  let offer = await getOfferBySlug(slug)
+  let isPreview = false
+
+  // Szkic pokazujemy wylacznie zalogowanemu personelowi, z wyraznym paskiem
+  // u gory - zeby nikt nie pomylil podgladu z opublikowana oferta.
+  if (!offer || !OFFER_STATUSES[offer.status].public) {
+    const draft = await draftPreview(slug)
+    if (!draft) notFound()
+    offer = draft
+    isPreview = true
+  }
 
   const agent = await getAgent(offer.agentId)
   const url = `${siteUrl()}/oferta/${offer.slug}`
@@ -92,6 +106,22 @@ export default async function OfferPage(props: PageProps<'/oferta/[slug]'>) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(offer, url)) }}
       />
+
+      {isPreview ? (
+        <div className="bg-[#8A6A3B] text-white">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-1 px-6 py-3 lg:px-8">
+            <p className="text-body text-[15px] font-medium">
+              Podgląd — ta oferta nie jest jeszcze widoczna dla klientów
+            </p>
+            <Link
+              href={`/panel/oferty/${offer.id}`}
+              className="text-body text-[15px] underline underline-offset-4"
+            >
+              Wróć do edycji
+            </Link>
+          </div>
+        </div>
+      ) : null}
 
       <div className="mx-auto max-w-6xl px-6 py-8 lg:px-8 lg:py-12">
         <nav aria-label="Ścieżka nawigacji" className="text-body text-[13px] text-[#8C857C]">
@@ -225,9 +255,10 @@ export default async function OfferPage(props: PageProps<'/oferta/[slug]'>) {
                 <p className="text-micro text-[11px] font-semibold text-[#8C857C] uppercase">
                   Opiekun oferty
                 </p>
+                <AgentAvatar agent={agent} size={72} className="mt-4" />
                 <Link
                   href={`/zespol/${agent.slug}`}
-                  className="text-heading mt-3 block font-serif text-2xl transition-colors hover:text-[#8A6A3B]"
+                  className="text-heading mt-4 block font-serif text-2xl transition-colors hover:text-[#8A6A3B]"
                 >
                   {agent.fullName}
                 </Link>

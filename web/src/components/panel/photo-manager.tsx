@@ -66,21 +66,25 @@ export function PhotoManager({
     if (list.length === 0) return
 
     const supabase = createClient()
+    let bledy = 0
 
     for (const file of list) {
       setUploads((u) => [...u, { name: file.name, progress: 'kompresja' }])
+      // sciezka poza try, zeby dalo sie posprzatac plik przy pozniejszym bledzie
+      const path = `${offerNumber}/${crypto.randomUUID()}.jpg`
+      let wgrany = false
+
       try {
         const compressed = await imageCompression(file, COMPRESSION)
         setUploads((u) =>
           u.map((x) => (x.name === file.name ? { ...x, progress: 'wysyłanie' } : x)),
         )
 
-        const path = `${offerNumber}/${crypto.randomUUID()}.jpg`
         const { error: uploadError } = await supabase.storage
           .from(PHOTO_BUCKET)
           .upload(path, compressed, { contentType: 'image/jpeg', upsert: false })
-
         if (uploadError) throw new Error(uploadError.message)
+        wgrany = true
 
         const dims = await readDimensions(compressed)
         const { error } = await addPhoto(offerId, path, dims.width, dims.height)
@@ -88,6 +92,13 @@ export function PhotoManager({
 
         setUploads((u) => u.filter((x) => x.name !== file.name))
       } catch (e) {
+        // Plik jest juz w Storage, ale wiersz w bazie nie powstal. Bez tego
+        // sprzatania zostalby tam na zawsze, niewidoczny dla nikogo i zajmujacy
+        // limit - a limit na darmowym planie to 1 GB.
+        if (wgrany) {
+          await supabase.storage.from(PHOTO_BUCKET).remove([path]).catch(() => {})
+        }
+        bledy++
         setUploads((u) =>
           u.map((x) =>
             x.name === file.name
@@ -97,12 +108,10 @@ export function PhotoManager({
         )
       }
     }
-    // Odswiezamy liste tylko wtedy, gdy wszystko przeszlo. Przy bledzie
-    // zostajemy na stronie, zeby komunikat nie zniknal razem z przeladowaniem.
-    setUploads((current) => {
-      if (current.length === 0) startTransition(() => window.location.reload())
-      return current
-    })
+
+    // Przeladowanie tylko gdy wszystko przeszlo - inaczej komunikat o bledzie
+    // zniknalby, zanim ktokolwiek zdazyl go przeczytac.
+    if (bledy === 0) startTransition(() => window.location.reload())
   }
 
   function onDragEnd(event: DragEndEvent) {

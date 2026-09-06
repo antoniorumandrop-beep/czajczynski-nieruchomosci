@@ -13,7 +13,7 @@ export default function SiteLayout({ children }: LayoutProps<'/'>) {
         <div className="mx-auto max-w-6xl px-6 py-14 lg:px-8">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="sm:col-span-2 lg:col-span-1">
-              <Link href="/" className="font-serif text-[19px] leading-none">
+              <Link href="/" className="-ml-1 inline-block px-1 py-2 font-serif text-[19px] leading-none">
                 Czajczyński<span className="text-[#8A6A3B]"> Nieruchomości</span>
               </Link>
               <address className="text-body mt-5 space-y-2.5 text-[15px] text-[#4A443D] not-italic">
@@ -27,13 +27,13 @@ export default function SiteLayout({ children }: LayoutProps<'/'>) {
                 </p>
                 <p className="flex items-center gap-2.5">
                   <Phone className="size-4 shrink-0 text-[#8C857C]" aria-hidden />
-                  <a href={`tel:${CONTACT.phoneRaw}`} className="hover:text-[#8A6A3B]">
+                  <a href={`tel:${CONTACT.phoneRaw}`} className="-my-1 inline-block py-1 hover:text-[#8A6A3B]">
                     {CONTACT.phone}
                   </a>
                 </p>
                 <p className="flex items-center gap-2.5">
                   <Mail className="size-4 shrink-0 text-[#8C857C]" aria-hidden />
-                  <a href={`mailto:${CONTACT.email}`} className="hover:text-[#8A6A3B]">
+                  <a href={`mailto:${CONTACT.email}`} className="-my-1 inline-block py-1 hover:text-[#8A6A3B]">
                     {CONTACT.email}
                   </a>
                 </p>
@@ -65,12 +65,12 @@ export default function SiteLayout({ children }: LayoutProps<'/'>) {
                 <p className="text-micro text-[11px] font-semibold text-[#8C857C] uppercase">
                   {col.title}
                 </p>
-                <ul className="mt-4 space-y-2.5">
+                <ul className="mt-3 -ml-1">
                   {col.links.map((l) => (
                     <li key={l.href}>
                       <Link
                         href={l.href}
-                        className="text-body text-[15px] text-[#4A443D] transition-colors hover:text-[#8A6A3B]"
+                        className="text-body inline-block px-1 py-2 text-[15px] text-[#4A443D] transition-colors hover:text-[#8A6A3B]"
                       >
                         {l.label}
                       </Link>

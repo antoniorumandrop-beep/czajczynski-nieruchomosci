@@ -38,7 +38,7 @@ export default function ContactPage() {
                 </p>
                 <a
                   href={`tel:${CONTACT.phoneRaw}`}
-                  className="nums text-body mt-1.5 block text-[18px] transition-colors hover:text-[#8A6A3B]"
+                  className="nums text-body mt-1 -ml-1 inline-block px-1 py-1.5 text-[18px] transition-colors hover:text-[#8A6A3B]"
                 >
                   {CONTACT.phone}
                 </a>
@@ -53,7 +53,7 @@ export default function ContactPage() {
                 </p>
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="text-body mt-1.5 block text-[18px] transition-colors hover:text-[#8A6A3B]"
+                  className="text-body mt-1 -ml-1 inline-block px-1 py-1.5 text-[18px] transition-colors hover:text-[#8A6A3B]"
                 >
                   {CONTACT.email}
                 </a>
@@ -84,7 +84,7 @@ export default function ContactPage() {
                 href="https://www.google.com/maps/search/?api=1&query=Bia%C5%82osk%C3%B3rnicza+10+Wroc%C5%82aw"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-body mt-2 border-b border-[#8A6A3B]/40 pb-0.5 text-[15px] font-medium text-[#8A6A3B]"
+                className="text-body mt-2 inline-block border-b border-[#8A6A3B]/40 py-1.5 text-[15px] font-medium text-[#8A6A3B]"
               >
                 Otwórz w Mapach Google
               </a>

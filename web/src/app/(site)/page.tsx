@@ -5,6 +5,7 @@ import { OfferCard } from '@/components/site/offer-card'
 import { getAgents, getPublicOffers } from '@/lib/offers'
 import { formatPrice, offersCount } from '@/lib/format'
 import { PROPERTY_TYPES, type PropertyType } from '@/lib/types'
+import { AgentAvatar } from '@/components/site/avatar'
 
 export default async function HomePage() {
   const offers = await getPublicOffers()
@@ -96,8 +97,9 @@ export default async function HomePage() {
           {agents.map((agent, i) => (
             <div key={agent.id} className="border-t border-[#1E1B18]/12 pt-7">
               <p className="text-micro text-[11px] text-[#8C857C] uppercase">0{i + 1}</p>
-              <h3 className="text-heading mt-4 font-serif text-3xl">
-                <Link href={`/zespol/${agent.slug}`} className="transition-colors hover:text-[#8A6A3B]">
+              <AgentAvatar agent={agent} size={96} className="mt-5" />
+              <h3 className="text-heading mt-5 font-serif text-3xl">
+                <Link href={`/zespol/${agent.slug}`} className="inline-block py-1 transition-colors hover:text-[#8A6A3B]">
                   {agent.fullName}
                 </Link>
               </h3>
@@ -112,7 +114,7 @@ export default async function HomePage() {
               </p>
               <Link
                 href={`/zespol/${agent.slug}`}
-                className="text-body mt-5 inline-block border-b border-[#8A6A3B]/40 pb-0.5 text-[15px] font-medium text-[#8A6A3B] transition-colors hover:border-[#8A6A3B]"
+                className="text-body mt-4 inline-block border-b border-[#8A6A3B]/40 py-1.5 text-[15px] font-medium text-[#8A6A3B] transition-colors hover:border-[#8A6A3B]"
               >
                 Zobacz profil
               </Link>

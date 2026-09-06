@@ -86,8 +86,7 @@ export function parseFilters(params: RawParams): Filters {
 
 /** Ile filtrow jest realnie ustawionych - do plakietki "Filtry (3)". */
 export function activeFilterCount(f: Filters): number {
-  const { sort: _sort, ...rest } = f
-  return Object.values(rest).filter((v) => v !== null).length
+  return Object.entries(f).filter(([k, v]) => k !== 'sort' && v !== null).length
 }
 
 export function applyFilters(offers: Offer[], f: Filters): Offer[] {

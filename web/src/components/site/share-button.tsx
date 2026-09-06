@@ -18,11 +18,6 @@ type State = 'idle' | 'copied' | 'error'
 
 export function ShareButtons({ offer, url }: { offer: Offer; url: string }) {
   const [state, setState] = useState<State>('idle')
-  const [canNativeShare, setCanNativeShare] = useState(false)
-
-  useEffect(() => {
-    setCanNativeShare(typeof navigator !== 'undefined' && typeof navigator.share === 'function')
-  }, [])
 
   useEffect(() => {
     if (state === 'idle') return
@@ -49,7 +44,14 @@ export function ShareButtons({ offer, url }: { offer: Offer; url: string }) {
     window.open(facebookShareUrl(url), '_blank', 'noopener,noreferrer,width=620,height=680')
   }
 
+  // Obecnosc navigator.share sprawdzamy przy klikniecu, nie przy renderze:
+  // stan ustawiany w efekcie tylko po to, zeby uniknac roznicy miedzy
+  // serwerem a przegladarka, kosztowal dodatkowy render kazdej strony oferty.
   async function shareNative() {
+    if (typeof navigator.share !== 'function') {
+      setState((await copy()) ? 'copied' : 'error')
+      return
+    }
     try {
       await navigator.share({ title: offer.title, text, url })
     } catch {
@@ -86,7 +88,7 @@ export function ShareButtons({ offer, url }: { offer: Offer; url: string }) {
           Kopiuj tekst posta
         </button>
 
-        {canNativeShare ? (
+        {
           <button
             type="button"
             onClick={shareNative}
@@ -95,7 +97,7 @@ export function ShareButtons({ offer, url }: { offer: Offer; url: string }) {
             <Share2 className="size-4" aria-hidden />
             Wyślij
           </button>
-        ) : null}
+        }
       </div>
 
       <p aria-live="polite" className="text-body mt-3 min-h-5 text-[14px]">

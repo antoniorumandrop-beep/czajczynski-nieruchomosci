@@ -76,7 +76,7 @@ export default async function EditOfferPage(props: PageProps<'/panel/oferty/[id]
         <h2 className="text-heading font-serif text-xl">Usuwanie oferty</h2>
         <p className="text-body mt-2 max-w-xl text-[15px] text-[#6B645B]">
           Usunięcie kasuje ofertę razem ze wszystkimi zdjęciami i nie da się tego cofnąć. Jeśli
-          nieruchomość została sprzedana, lepiej ustawić status „Sprzedana" — zniknie ze strony, ale
+          nieruchomość została sprzedana, lepiej ustawić status „Sprzedana” — zniknie ze strony, ale
           zostanie w archiwum.
         </p>
         <div className="mt-5">

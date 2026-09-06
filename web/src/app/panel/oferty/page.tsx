@@ -46,7 +46,7 @@ export default async function PanelOffers(props: PageProps<'/panel/oferty'>) {
         <div className="mt-12 border border-[#1E1B18]/15 bg-white p-10 text-center">
           <p className="text-heading font-serif text-2xl">Nie ma jeszcze żadnej oferty</p>
           <p className="text-body mx-auto mt-3 max-w-md text-[16px] text-[#6B645B]">
-            Kliknij „Dodaj ofertę", wypełnij formularz i zapisz. Zdjęcia dodaje się w drugim kroku,
+            Kliknij „Dodaj ofertę”, wypełnij formularz i zapisz. Zdjęcia dodaje się w drugim kroku,
             po zapisaniu podstawowych danych.
           </p>
         </div>

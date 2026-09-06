@@ -6,6 +6,7 @@ import { InquiryForm } from '@/components/site/inquiry-form'
 import { OfferCard } from '@/components/site/offer-card'
 import { getAgents, getOffersByAgent } from '@/lib/offers'
 import { offersCount } from '@/lib/format'
+import { AgentAvatar } from '@/components/site/avatar'
 
 export async function generateStaticParams() {
   return (await getAgents()).map((a) => ({ slug: a.slug }))
@@ -36,6 +37,7 @@ export default async function AgentPage(props: PageProps<'/zespol/[slug]'>) {
 
       <div className="mt-8 grid gap-12 border-t border-[#1E1B18]/12 pt-10 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
         <div>
+          <AgentAvatar agent={agent} size={140} className="mb-8" />
           <h1 className="text-display font-serif text-[clamp(2rem,5vw,3.5rem)]">{agent.fullName}</h1>
           <p className="text-body mt-3 text-[18px] text-[#8A6A3B]">{agent.role}</p>
           {agent.licence ? (
