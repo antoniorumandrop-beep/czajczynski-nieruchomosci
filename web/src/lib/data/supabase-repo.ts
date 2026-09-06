@@ -1,5 +1,5 @@
 import 'server-only'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { storagePublicUrl } from '@/lib/supabase/config'
 import type { Agent, Offer, OfferAttribute, OfferPhoto } from '@/lib/types'
 
@@ -128,7 +128,7 @@ function toAgent(row: AgentRow): Agent {
 
 export const supabaseRepo = {
   async offers(): Promise<Offer[]> {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('offers')
       .select(OFFER_COLUMNS)
@@ -139,7 +139,7 @@ export const supabaseRepo = {
   },
 
   async agents(): Promise<Agent[]> {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('agents')
       .select('id, slug, full_name, role, licence, phone, email, photo_path, bio')
