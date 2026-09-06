@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Newsreader, Bricolage_Grotesque } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 // latin-ext jest obowiazkowe - bez niego ą, ę, ł, ś, ż wypadaja na fallback
@@ -35,7 +36,12 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="pl"
       className={`${inter.variable} ${newsreader.variable} ${bricolage.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {children}
+        {/* Statystyki odwiedzin Vercela - bez ciasteczek i bez profilowania,
+            wiec nie wymagaja banera zgody. */}
+        <Analytics />
+      </body>
     </html>
   )
 }
