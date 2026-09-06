@@ -64,9 +64,28 @@ cd web && node tools/shots.mjs / /oferty /panel
 
 Zrzuty lądują w `shots/` (poza repo).
 
+## Pułapki, na które już trafiliśmy
+
+**`backdrop-filter` tworzy blok zawierający dla `position: fixed`.** Menu
+mobilne było dzieckiem paska nawigacji z `backdrop-blur` i przez to `inset-0`
+oznaczało rozmiar paska, nie ekranu — treść strony przechodziła przez menu.
+Warstwy pełnoekranowe muszą być rodzeństwem paska, nie jego dzieckiem.
+
+**Adresy zdjęć bywają względne albo pełne** — względne z pliku JSON, pełne
+z Supabase Storage. Do tagów Open Graph i danych strukturalnych używaj
+`absoluteUrl()` z `lib/site.ts`, nie sklejaj domeny ręcznie.
+
+**Vercel na darmowym planie blokuje deploy commita, którego autor nie jest
+właścicielem projektu.** Repozytorium ma ustawione `user.email` na adres
+noreply konta GitHub — nie zmieniaj tego.
+
+**`generateStaticParams` nie ma dostępu do ciasteczek**, bo działa przy
+budowaniu. Dane publiczne czytaj przez `createPublicClient()`, nie przez
+klient związany z sesją.
+
 ## Co zostało
 
-- Podpięcie Supabase i test panelu na żywo (czeka na klucze)
-- Import 22 ofert do bazy: `npm run seed`
-- Wdrożenie na Vercel
-- Usunięcie `/warianty` przed startem — to były makiety do wyboru kierunku
+- Konta w panelu dla Beaty i Piotra (jest tylko konto testowe Antonia)
+- Ich zdjęcia do profili — teraz pokazują się inicjały
+- Przypisanie ofert do Beaty — w danych wszystkie 22 ma Piotr
+- Włączenie Web Analytics w panelu Vercela
