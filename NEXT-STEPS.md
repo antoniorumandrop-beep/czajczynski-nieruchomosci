@@ -102,7 +102,26 @@ każdy adres pod `/panel` przekierowuje niezalogowanego na logowanie.
 - wysłanie zapytania z formularza i sprawdzenie, że trafiło do skrzynki
 - usunięcie oferty razem ze zdjęciami
 
-## Krok 6 — wdrożenie na Vercel
+## Krok 6 — wdrożenie na Vercel — ZROBIONE
+
+- Strona: https://czajczynski-nieruchomosci.vercel.app
+- Panel: https://czajczynski-nieruchomosci.vercel.app/panel
+- Repozytorium: github.com/antoniorumandrop-beep/czajczynski-nieruchomosci (prywatne)
+
+**Dwie pułapki, na które trafiliśmy — do zapamiętania:**
+
+Darmowy plan Vercela wpuszcza wyłącznie commity, których autor jest
+właścicielem projektu. Commity podpisane innym adresem e-mail są blokowane
+komunikatem o braku „contributing access". Repozytorium ma teraz ustawione
+`user.email` na adres noreply konta GitHub — nie zmieniaj tego, bo każdy
+kolejny deploy się zatrzyma.
+
+Ścieżki zdjęć przychodzą względne z pliku JSON i pełne z Supabase Storage.
+Doklejanie domeny do obu psuło adres w tagach Open Graph, przez co podgląd
+linku na Facebooku nie miał czego pokazać. Do tego służy `absoluteUrl()`
+w `lib/site.ts` — używaj go wszędzie, gdzie adres zdjęcia idzie na zewnątrz.
+
+### Konfiguracja, która już stoi
 
 Potrzebne od Ciebie: konto Vercel (darmowe) i połączenie repozytorium.
 Repo jest lokalne, bez zdalnego — trzeba założyć na GitHubie.
