@@ -9,7 +9,7 @@ import { ShareButtons } from '@/components/site/share-button'
 import { AgentAvatar } from '@/components/site/avatar'
 import { getAgent, getOfferBySlug, getPublicOffers } from '@/lib/offers'
 import { formatArea, formatPrice, formatPricePerM2, floorLabel, rooms as roomsLabel } from '@/lib/format'
-import { siteUrl } from '@/lib/site'
+import { absoluteUrl, siteUrl } from '@/lib/site'
 import { draftPreview } from '@/lib/preview'
 import {
   MARKETS,
@@ -55,7 +55,7 @@ export async function generateMetadata(props: PageProps<'/oferta/[slug]'>): Prom
       url,
       title,
       description,
-      images: cover ? [{ url: `${siteUrl()}${cover}`, width: 1280, height: 960, alt: offer.title }] : [],
+      images: cover ? [{ url: absoluteUrl(cover), width: 1280, height: 960, alt: offer.title }] : [],
     },
     twitter: { card: 'summary_large_image', title, description },
   }
@@ -319,7 +319,7 @@ function buildJsonLd(offer: Offer, url: string) {
     url,
     description: offer.description.slice(0, 500),
     datePosted: offer.createdAt,
-    image: offer.photos.slice(0, 6).map((p) => `${siteUrl()}${p.url}`),
+    image: offer.photos.slice(0, 6).map((p) => absoluteUrl(p.url)),
     offers: {
       '@type': 'Offer',
       price: offer.price,

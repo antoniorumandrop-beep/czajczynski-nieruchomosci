@@ -20,3 +20,16 @@ export function siteUrl(): string {
   if (vercel) return `https://${vercel}`
   return 'http://localhost:3000'
 }
+
+/**
+ * Adres bezwzgledny dla tagow Open Graph i danych strukturalnych.
+ *
+ * Sciezki zdjec przychodza w dwoch postaciach: wzglednej (/oferty/...) gdy
+ * zrodlem jest plik JSON, i pelnej gdy zrodlem jest Supabase Storage.
+ * Doklejenie domeny do tej drugiej dawalo adres sklejony z dwoch, przez co
+ * Facebook nie mial czego pokazac w podgladzie linku.
+ */
+export function absoluteUrl(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path
+  return `${siteUrl()}${path.startsWith('/') ? '' : '/'}${path}`
+}
