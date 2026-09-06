@@ -90,7 +90,7 @@ export default async function HomePage() {
       {/* ---------- Zespol ---------- */}
       <section className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-28">
         <h2 className="text-display max-w-2xl font-serif text-[clamp(2rem,4vw,3.25rem)] text-balance">
-          Dwie osoby, dwie różne uprawnienia
+          Dwie osoby, dwa różne uprawnienia
         </h2>
 
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:gap-16">
