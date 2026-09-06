@@ -123,9 +123,14 @@ export function SiteNav() {
             <ul className="divide-y divide-[#1E1B18]/10">
               {LINKS.map((l) => (
                 <li key={l.href}>
+                  {/*
+                    Bez onClick zamykajacego menu: odmontowanie linku w tym
+                    samym klikniecu przerywalo nawigacje - menu sie zamykalo,
+                    ale strona nie zmieniala. Zamkniecie i tak nastepuje wyzej,
+                    po zmianie sciezki.
+                  */}
                   <Link
                     href={l.href}
-                    onClick={() => setOpen(false)}
                     aria-current={isActive(l.href) ? 'page' : undefined}
                     className={[
                       'text-heading block py-5 font-serif text-2xl transition-colors',
